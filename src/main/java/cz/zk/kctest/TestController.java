@@ -34,7 +34,7 @@ public class TestController {
 
     @GetMapping(value = "/songs")
     public String handleSongsInfoRequest() {
-        return ("Yellow submarine");
+        return String.format ("Email verified: %s ", getEmailVerified());
     }
 
     @PutMapping(value = "/songs")
@@ -45,6 +45,15 @@ public class TestController {
     @GetMapping(value = "/open")
     public String handleOpenInfoRequest() {
         return ("Opened data !");
+    }
+
+    private boolean getEmailVerified() {
+        KeycloakSecurityContext cont = getKeycloakSecurityContext();
+        return cont.getToken().getEmailVerified();
+    }
+
+    private KeycloakSecurityContext getKeycloakSecurityContext() {
+        return (KeycloakSecurityContext) request.getAttribute(KeycloakSecurityContext.class.getName());
     }
 
 
